@@ -1,0 +1,61 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: cashflow-microservice
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    #    date-format: yyyy-MM-dd'T'HH:mm:ssXXX
+    time-zone: America/Sao_Paulo
+
+  cassandra:
+    keyspace-name: "${KEYSPACE_NAME:cashflow}"
+    port: 9042
+    contact-points: ${CASSANDRA_SERVER:cassandra}
+    local-datacenter: ${CASSANDRA_DATACENTER:datacenter1}
+    schema-action: CREATE_IF_NOT_EXISTS
+
+  security:
+    oauth2:
+      #      client:
+      #        registration:
+      #          keycloak:
+      #            client-id: api-billing-app
+      #            authorization-grant-type: authorization_code
+      #            scope: openid
+      #        provider:
+      #          keycloak:
+      #            issuer-uri: http://localhost:8080/realms/greenhouse
+      #            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/greenhouse
+          jwk-set-uri: https://idp.example.com/.well-known/jwks.json
+
+  data:
+    cassandra:
+      create-keyspace: true
+
+  # Kafka
+  kafka:
+    producer:
+      retries: 5
+      acks: all
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          autoCreateTopics: true
+          autoAddPartitions: true
+          configuration:
+            isolation:
+              level: read_committed
+          brokers: ${KAFKA_BROKERS:kafka:9092}
+      function:
+        definition: upsertItemCashFlow
+      bindings:
+        upsertItemCashFlow-in-0:
+          destination: cashflow-upsert-item-cashflow-persist
+          group: ${spring.application.name}
