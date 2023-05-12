@@ -4,12 +4,9 @@ import br.com.act.cashflow.mappers.ItemCashFlowMapper;
 import br.com.act.cashflow.services.ItemCashFlowService;
 import br.com.act.platform.model.cashflow.ItemCashFlow;
 import br.com.act.platform.model.request.RequestAction;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 
@@ -22,14 +19,16 @@ public class ItemCashFlowController {
     }
 
     @GetMapping("/item-cash-flow")
-    public Flux<ItemCashFlow> find(@RequestParam(name="date", required = true) final LocalDate date) {
+    public Flux<ItemCashFlow> find(@RequestParam(name = "date", required = true) final LocalDate date) {
         return service.find(date).map(ItemCashFlowMapper::transform);
     }
 
-    @PostMapping("item-cash-flow")
-    public Mono<ItemCashFlow> upsert(final RequestAction<ItemCashFlow> value) {
-        //TODO Implementar o save para o cassandra
-        return Mono.empty();
+    @PostMapping("/item-cash-flow")
+    @PutMapping("/item-cash-flow")
+    @DeleteMapping("/item-cash-flow")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void upsert(@RequestBody final RequestAction<ItemCashFlow> value) {
+        service.send(value);
     }
 
 }
