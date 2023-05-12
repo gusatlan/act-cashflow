@@ -7,9 +7,13 @@ import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface ItemCashFlowRepository extends ReactiveCassandraRepository<ItemCashFlow, ItemCashFlowId> {
 
     @AllowFiltering
-    public Flux<ItemCashFlow> findByIdDate(final LocalDate date);
+    Flux<ItemCashFlow> findByIdDate(final LocalDate date);
+
+    @AllowFiltering
+    Flux<ItemCashFlow> findByIdTimeBetween(final LocalDateTime begin, final LocalDateTime end);
 }

@@ -7,6 +7,7 @@ import br.com.act.cashflow.repositories.ItemCashFlowRepository;
 import br.com.act.platform.model.enums.ActionType;
 import br.com.act.platform.model.exceptions.EntityInvalidException;
 import br.com.act.platform.model.request.RequestAction;
+import br.com.act.platform.util.DateUtils;
 import br.com.act.platform.util.ValidationUtils;
 import org.slf4j.Logger;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -16,6 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.function.Function;
 
@@ -37,6 +39,10 @@ public class ItemCashFlowService {
 
     public Flux<ItemCashFlow> find(final LocalDate date) {
         return repository.findByIdDate(date);
+    }
+
+    public Flux<ItemCashFlow> find(final LocalDateTime begin, final LocalDateTime end) {
+        return repository.findByIdTimeBetween(DateUtils.atStartOfDay(begin), DateUtils.atEndOfDay(end));
     }
 
     private Mono<ItemCashFlow> upsert(final ItemCashFlow value) {

@@ -10,7 +10,7 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 //@io.swagger.v3.oas.annotations.security.SecurityScheme(
 //    name = "bearerAuth",
 //    type = SecuritySchemeType.HTTP,
@@ -18,12 +18,6 @@ import org.springframework.context.annotation.Configuration;
 //    scheme = "bearer"
 //)
 public class SpringDocConfiguration {
-
-    private BuildProperties buildInfo;
-
-    public SpringDocConfiguration(final BuildProperties buildInfo) {
-        this.buildInfo = buildInfo;
-    }
 
     @Bean
     public GroupedOpenApi publicApi() {
@@ -43,9 +37,8 @@ public class SpringDocConfiguration {
                         )
                 )
                 .info(
-                        new Info().title("Acquire API")
-                                .version(buildInfo.getVersion())
+                        new Info().title("CashFlow API")
+                                .version("v1")
                 );
     }
-
 }

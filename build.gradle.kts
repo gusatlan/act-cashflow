@@ -14,7 +14,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2022.0.1"
-val actPlatformVersion = "1.0.1"
+val actPlatformVersion = "1.0.2"
 val springDocVersion = "2.1.0"
 
 dependencies {
@@ -22,7 +22,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:${springDocVersion}")
     implementation("org.springframework.boot:spring-boot-starter-data-cassandra-reactive")
 
-//    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 //    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -30,7 +30,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
     implementation("org.springframework.kafka:spring-kafka")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+    runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.cloud:spring-cloud-stream-test-binder")

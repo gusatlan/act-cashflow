@@ -1,5 +1,9 @@
 server:
   port: 8080
+
+logging:
+  level: INFO
+
 spring:
   application:
     name: cashflow-microservice
@@ -15,6 +19,23 @@ spring:
     contact-points: ${CASSANDRA_SERVER:cassandra}
     local-datacenter: ${CASSANDRA_DATACENTER:datacenter1}
     schema-action: CREATE_IF_NOT_EXISTS
+
+  sql:
+    init:
+      platform: postgres
+
+  datasource:
+    url: "jdbc:postgresql://${REPORT_DB_HOST:db}:5432/${REPORT_DB:report_cash_flow}"
+    username: "${REPORT_DB_HOST:root}"
+    password: "${REPORT_DB_PASSWORD:Ora1626X}"
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      show_sql: true
+      format_sql: true
+
 
   security:
     oauth2:
@@ -54,8 +75,12 @@ spring:
               level: read_committed
           brokers: ${KAFKA_BROKERS:kafka:9092}
       function:
-        definition: upsertItemCashFlow
+        definition: upsertItemCashFlow;reportCashFlow
       bindings:
         upsertItemCashFlow-in-0:
           destination: cashflow-upsert-item-cashflow-persist
+          group: ${spring.application.name}
+
+        reportCashFlow-in-0:
+          destination: cashflow-report
           group: ${spring.application.name}

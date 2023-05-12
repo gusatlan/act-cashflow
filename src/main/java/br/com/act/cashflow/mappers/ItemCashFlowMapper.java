@@ -1,6 +1,7 @@
 package br.com.act.cashflow.mappers;
 
 import br.com.act.cashflow.model.cassandra.ids.ItemCashFlowId;
+import br.com.act.cashflow.model.sql.ItemCashFlowPersist;
 import br.com.act.platform.model.cashflow.ItemCashFlow;
 
 public final class ItemCashFlowMapper {
@@ -22,6 +23,15 @@ public final class ItemCashFlowMapper {
                                 .withTime(value.getDate())
                                 .build()
                 )
+                .withDescription(value.getDescription())
+                .withValue(value.getValue())
+                .build();
+    }
+
+    public static ItemCashFlowPersist transformItemCashFlowPersist(final br.com.act.cashflow.model.cassandra.ItemCashFlow value) {
+        return new ItemCashFlowPersist.Builder()
+                .withDate(value.getId().getTime())
+                .withType(value.getId().getType())
                 .withDescription(value.getDescription())
                 .withValue(value.getValue())
                 .build();

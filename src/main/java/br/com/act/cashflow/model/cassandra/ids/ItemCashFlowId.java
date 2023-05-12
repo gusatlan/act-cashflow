@@ -1,6 +1,7 @@
 package br.com.act.cashflow.model.cassandra.ids;
 
 import br.com.act.platform.model.enums.ItemCashFlowType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
@@ -15,11 +16,10 @@ public final class ItemCashFlowId implements Comparable<ItemCashFlowId> {
     @PrimaryKeyColumn(name = "event_date", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private LocalDate date;
 
-    @PrimaryKeyColumn(name = "event_datetime", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
+    @PrimaryKeyColumn(name = "event_datetime", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
     private LocalDateTime time;
 
-
-    @PrimaryKeyColumn(name = "type", ordinal = 2, type = PrimaryKeyType.PARTITIONED)
+    @PrimaryKeyColumn(name = "type", ordinal = 2, type = PrimaryKeyType.CLUSTERED)
     private ItemCashFlowType type;
 
     public LocalDate getDate() {
@@ -35,6 +35,7 @@ public final class ItemCashFlowId implements Comparable<ItemCashFlowId> {
     }
 
     @Transient
+    @JsonIgnore
     public boolean isValid() {
         return time != null && type != null;
     }
