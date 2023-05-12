@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
+//@PreAuthorize("hasAnyRole(@environment.getProperty('roles')")
 public class ReportController {
     private final ReportService service;
 
@@ -17,6 +18,7 @@ public class ReportController {
     }
 
     @PostMapping("/report")
+//    @CrossOrigin(origins = "*")
     public Mono<ReportCashFlow> generate(@RequestBody final RequestCashFlowReport request) {
         return service.generateReport(request);
     }

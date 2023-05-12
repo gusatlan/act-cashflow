@@ -15,6 +15,7 @@ repositories {
     mavenLocal()
 }
 
+
 extra["springCloudVersion"] = "2022.0.1"
 val actPlatformVersion = "1.0.4"
 val jasperVersion = "6.20.0"
@@ -33,6 +34,9 @@ dependencies {
     implementation("net.sf.jasperreports:jasperreports-fonts:${jasperVersion}")
     implementation("net.sf.jasperreports:jasperreports:${jasperVersion}")
     implementation("xerces:xercesImpl:2.12.2")
+
+    //Security
+//    implementation("org.springframework.boot:spring-boot-starter-security")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.cloud:spring-cloud-stream")
