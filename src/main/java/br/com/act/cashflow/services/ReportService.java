@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import javax.sql.DataSource;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,20 +25,20 @@ public class ReportService {
     private final Logger logger;
     private final String reportFilename;
 
-    private final Connection connection;
+    private final DataSource ds;
 
     public ReportService(
             final ItemCashFlowService service,
             final ItemCashFlowPersistService reportService,
             final Logger logger,
             @Value("${report.filename}") final String reportFilename,
-            final Connection connection
+            final DataSource ds
     ) {
         this.service = service;
         this.reportService = reportService;
         this.logger = logger;
         this.reportFilename = reportFilename;
-        this.connection = connection;
+        this.ds = ds;
     }
 
     private Optional<String> createReport(final LocalDateTime beginAt, final LocalDateTime endAt) {
@@ -48,7 +50,7 @@ public class ReportService {
         params.put("BEGIN_DATE", DateUtils.convert(DateUtils.atStartOfDay(begin)));
         params.put("END_DATE", DateUtils.convert(DateUtils.atEndOfDay(end)));
 
-        try {
+        try (Connection connection = ds.getConnection()){
             final byte[] reportBin = ReportUtils.exportReport(ReportUtils.getReportFile(reportFilename), params, connection);
             report = Optional.of(EncodeUtils.encodeBase64(reportBin));
         } catch (Exception e) {
@@ -69,7 +71,7 @@ public class ReportService {
                                     .withContent(report.orElse(null))
                                     .build();
 
-                            reportService.remove(request.getBeginDate().atStartOfDay(), DateUtils.atEndOfDay(request.getEndDate().atStartOfDay())).then();
+                            reportService.remove(request.getBeginDate().atStartOfDay(), DateUtils.atEndOfDay(request.getEndDate().atStartOfDay())).then().subscribe();
 
                             return Mono.just(reportCashFlow);
                         }

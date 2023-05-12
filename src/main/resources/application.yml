@@ -77,12 +77,8 @@ spring:
               level: read_committed
           brokers: ${KAFKA_BROKERS:kafka:9092}
       function:
-        definition: upsertItemCashFlow;reportCashFlow
+        definition: upsertItemCashFlow
       bindings:
         upsertItemCashFlow-in-0:
           destination: cashflow-upsert-item-cashflow-persist
-          group: ${spring.application.name}
-
-        reportCashFlow-in-0:
-          destination: cashflow-report
           group: ${spring.application.name}
