@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cash_flow" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="683d201e-0fc2-4d7e-87e5-d5d012edc60c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="cashflow.jrdax"/>
+	<parameter name="BEGIN_DATE" class="java.util.Date">
+		<defaultValueExpression><![CDATA[NOW( )]]></defaultValueExpression>
+	</parameter>
+	<parameter name="END_DATE" class="java.util.Date">
+		<defaultValueExpression><![CDATA[NOW( )]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+			 id
+			,event_time
+			,description
+			,CASE WHEN type = 'DEBIT' THEN value * -1 ELSE value END as value
+ FROM item_cash_flow
+ WHERE event_time BETWEEN  $P{BEGIN_DATE} AND $P{END_DATE}
+ ORDER BY event_time]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item_cash_flow"/>
+	</field>
+	<field name="event_time" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="event_time"/>
+		<property name="com.jaspersoft.studio.field.label" value="event_time"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item_cash_flow"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item_cash_flow"/>
+	</field>
+	<field name="value" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="value"/>
+		<property name="com.jaspersoft.studio.field.label" value="value"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item_cash_flow"/>
+	</field>
+	<variable name="value1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{value}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="8" width="555" height="30" uuid="6ac3198c-23d9-4cb0-961f-ac2568a8a463"/>
+				<textElement textAlignment="Center">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fluxo de Caixa]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="440" y="40" width="115" height="20" uuid="74b874de-8047-4d48-8dc1-3a7820c0684d"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="23" uuid="d246e647-8fea-4c03-b36b-9d8d0677f081"/>
+				<textElement verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="0" width="346" height="23" uuid="3221d552-b0a6-49af-9fbd-87584e5a1989">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="92c453c0-a8ac-4d46-a409-91f2636a2d5c"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="0" width="100" height="23" uuid="ffe273c0-54fd-450a-8e3f-7fc9e1a9c3e6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="94b0d526-7817-4480-b730-9043d11d057d"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="0" y="0" width="100" height="20" uuid="109daa78-8b4c-420c-abe2-c8c53159b118"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_time}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="104" y="0" width="346" height="20" uuid="1d8bd0fe-1517-465d-888f-7d6b1034df4d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="92c453c0-a8ac-4d46-a409-91f2636a2d5c"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement x="455" y="0" width="100" height="20" uuid="0a6a718a-cd3d-4b65-b717-f1d9b3dd6af9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="94b0d526-7817-4480-b730-9043d11d057d"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="30" uuid="adb9bdb0-e2df-4f97-a9d7-5bd3164e592a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de " +  $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="23" splitType="Stretch">
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement x="455" y="0" width="100" height="20" uuid="937b4a7a-5587-47fa-8795-d1c410d9b012"/>
+				<textElement textAlignment="Right">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{value1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="dc10ce08-233d-43cd-9766-f781fa5e7688"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

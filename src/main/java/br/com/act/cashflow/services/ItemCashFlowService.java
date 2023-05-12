@@ -45,6 +45,11 @@ public class ItemCashFlowService {
         return repository.findByIdTimeBetween(DateUtils.atStartOfDay(begin), DateUtils.atEndOfDay(end));
     }
 
+    public Flux<ItemCashFlow> find(final LocalDate begin, final LocalDate end) {
+        return find(begin.atStartOfDay(), DateUtils.atEndOfDay(end.atStartOfDay()));
+    }
+
+
     private Mono<ItemCashFlow> upsert(final ItemCashFlow value) {
         return Mono.just(value)
                 .filter(ItemCashFlow::isValid)

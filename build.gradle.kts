@@ -14,7 +14,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2022.0.1"
-val actPlatformVersion = "1.0.2"
+val actPlatformVersion = "1.0.4"
 val springDocVersion = "2.1.0"
 
 dependencies {

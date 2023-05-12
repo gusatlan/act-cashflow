@@ -4,6 +4,8 @@ server:
 logging:
   level: INFO
 
+report.filename: cash_flow.jasper
+
 spring:
   application:
     name: cashflow-microservice
