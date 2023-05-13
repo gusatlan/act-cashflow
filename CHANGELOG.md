@@ -1,3 +1,8 @@
+## 2023-05-13
+
+* Implementado Rest retornando CashFlow
+
+
 ## 2023-05-12
 
 * Implementado classes de persistência para Apache Cassandra e JPA PostgreSQL (Usado para montar o relatório);
