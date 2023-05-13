@@ -35,7 +35,7 @@ spring:
 
   datasource:
     url: "jdbc:postgresql://${REPORT_DB_HOST:db}:5432/${REPORT_DB:report_cash_flow}"
-    username: "${REPORT_DB_HOST:root}"
+    username: "${REPORT_DB_USERNAME:root}"
     password: "${REPORT_DB_PASSWORD:Ora1626X}"
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

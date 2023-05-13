@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./gradlew clean test build
+rm -Rf build/libs/*plain*.jar
+

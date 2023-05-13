@@ -1,0 +1,75 @@
+version: "3"
+services:
+  db_report:
+    image: postgres
+    container_name: db_report
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: report_cash_flow
+    networks:
+      - cashflow-microservice-network
+
+  db:
+    image: cassandra
+    container_name: db
+    ports:
+      - "9042:9042"
+      - "7000:7000"
+    networks:
+      - cashflow-microservice-network
+  zookeeper:
+    image: "bitnami/zookeeper:3.6.1"
+    container_name: zookeeper
+    networks:
+      - cashflow-microservice-network
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: "bitnami/kafka:2.5.0"
+    container_name: kafka
+    networks:
+      - cashflow-microservice-network
+    ports:
+      - "9092:9092"
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    depends_on:
+      - zookeeper
+  app:
+    image: cashflow-img:latest
+    ports:
+      - "8080:8080"
+    environment:
+      CASSANDRA_SERVER: db
+      CASSANDRA_DATACENTER: datacenter1
+      #CASSANDRA_USER: root
+      #CASSANDRA_PASSWORD: password
+      CASSANDRA_CONNECT_TIMEOUT: 50s
+      CASSANDRA_REQUEST_TIMEOUT: 10s
+
+      REPORT_DB_HOST: db_report
+      REPORT_DB_USERNAME: root
+      REPORT_DB_PASSWORD: mysecretpassword
+      REPORT_DB: report_cash_flow
+
+      KEYSPACE_NAME: cashflow
+      KAFKA_BROKERS: kafka:9092
+    networks:
+      - cashflow-microservice-network
+    depends_on:
+      - db
+      - db_report
+      - zookeeper
+      - kafka
+    restart: on-failure:100
+
+networks:
+  cashflow-microservice-network:
+    driver: bridge
