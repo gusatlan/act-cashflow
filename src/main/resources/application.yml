@@ -114,3 +114,4 @@ spring:
 
 report.filename: cash_flow.jasper
 roles: admin,accounting,finance
+cql.keyspace: "CREATE KEYSPACE ${spring.cassandra.keyspace-name} WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"

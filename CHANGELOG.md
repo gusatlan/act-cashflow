@@ -1,3 +1,10 @@
+## 2023-05-14
+
+* Criação do Dockerfile e docker-compose.yml
+  * Pacotes para renderizar o relatório em PDF;
+  * Criação de certificado auto-assinado;
+* Criação automática do keyspacename do Apache Cassandra
+
 ## 2023-05-13
 
 * Implementado Rest retornando CashFlow

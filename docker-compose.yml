@@ -61,6 +61,7 @@ services:
 
       KEYSPACE_NAME: cashflow
       KAFKA_BROKERS: kafka:9092
+      SSL_ENABLE: "false"
     networks:
       - cashflow-microservice-network
     depends_on:
