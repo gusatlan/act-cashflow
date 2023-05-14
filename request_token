@@ -1,0 +1,8 @@
+#!/bin/bash
+
+curl -X POST http://localhost:8089/realms/cashflow/protocol/openid-connect/token \
+	--header 'Content-Type: application/x-www-form-urlencoded' \
+	--data-urlencode 'grant_type=password' \
+	--data-urlencode 'client_id=cashflow-client' \
+	 --data-urlencode 'username=user1' \
+	 --data-urlencode 'password=user1'

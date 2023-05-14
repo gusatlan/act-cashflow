@@ -35,6 +35,8 @@ management:
 spring:
   application:
     name: cashflow-microservice
+  main:
+    allow-bean-definition-overriding: true
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
@@ -64,26 +66,12 @@ spring:
       show_sql: true
       format_sql: true
 
-
   security:
-    user:
-      name: ${CLIENT_USER_NAME:user}
-      password: ${CLIENT_USER_PASSWORD:user123}
     oauth2:
-      #      client:
-      #        registration:
-      #          keycloak:
-      #            client-id: api-billing-app
-      #            authorization-grant-type: authorization_code
-      #            scope: openid
-      #        provider:
-      #          keycloak:
-      #            issuer-uri: http://localhost:8080/realms/greenhouse
-      #            user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/greenhouse
-          jwk-set-uri: https://idp.example.com/.well-known/jwks.json
+          issuer-uri: http://keycloak:8089/realms/cashflow
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
   data:
     cassandra:
@@ -112,7 +100,11 @@ spring:
           destination: cashflow-upsert-item-cashflow-persist
           group: ${spring.application.name}
 
+jwt:
+  auth:
+    converter:
+      resource-id: cashflow-client
+      principal-attribute: preferred_username
+
 report.filename: cash_flow.jasper
-roles: admin,accounting,finance
 cql.keyspace: "CREATE KEYSPACE ${spring.cassandra.keyspace-name} WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"
-jwt.secret: javainuse
