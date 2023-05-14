@@ -35,6 +35,9 @@ dependencies {
     implementation("net.sf.jasperreports:jasperreports:${jasperVersion}")
     implementation("xerces:xercesImpl:2.12.2")
 
+    // Monitoring
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
     //Security
 //    implementation("org.springframework.boot:spring-boot-starter-security")
 

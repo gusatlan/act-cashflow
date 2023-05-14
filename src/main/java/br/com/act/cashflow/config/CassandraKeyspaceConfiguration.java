@@ -37,15 +37,14 @@ public class CassandraKeyspaceConfiguration {
     @PostConstruct
     public void generateKeyspaceName() {
         final String keyspaceName = properties.getKeyspaceName();
-
-        try (CqlSession session = cqlSessionBuilder.withKeyspace((CqlIdentifier) null).build()) {
+        try(CqlSession session = cqlSessionBuilder.build()) {
             session.execute(
                     CreateKeyspaceCqlGenerator.toCql(
                             CreateKeyspaceSpecification.createKeyspace(keyspaceName).ifNotExists()
                     )
             );
             logger.debug("Keyspace {} created", keyspaceName);
-        } catch (Exception e) {
+        } catch(Exception e) {
             logger.error("generateKeyspaceName: Error on generate keyspace: ", e);
         }
     }

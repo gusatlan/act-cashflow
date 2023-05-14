@@ -10,8 +10,27 @@ server:
 logging:
   level: INFO
 
-report.filename: cash_flow.jasper
-roles: admin,accounting,finance
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+    enabled-by-default: true
+  auditevents:
+    enabled: true
+  endpoint:
+    health:
+      enabled: true
+  health:
+    db:
+      enabled: true
+    cassandra:
+      enabled: true
+    binders:
+      enabled: true
+
+
 
 spring:
   application:
@@ -92,3 +111,6 @@ spring:
         upsertItemCashFlow-in-0:
           destination: cashflow-upsert-item-cashflow-persist
           group: ${spring.application.name}
+
+report.filename: cash_flow.jasper
+roles: admin,accounting,finance
