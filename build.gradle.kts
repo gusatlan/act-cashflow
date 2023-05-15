@@ -39,15 +39,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     // Security
-//    implementation("org.springframework.boot:spring-boot-starter-security")
-//    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-
-    // Lombok
-//    compileOnly("org.projectlombok:lombok")
-//    annotationProcessor("org.projectlombok:lombok")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-//    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-stream")
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
     implementation("org.springframework.kafka:spring-kafka")

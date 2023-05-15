@@ -1,9 +1,23 @@
+## 2023-05-16
+
+* Criação da camada de segurança usando JWT;
+
+
+## 2023-05-15
+
+* Ajustes nos scripts para uso no Windows;
+* Criado infra (docker-compose-infra.yml) para usar em conjunto no debug com a IDE;
+* Ajustes no application.yml para comportar a infra;
+* Adicionado nginx como proxy reverso/ssl;
+* Documentação do serviço;
+
 ## 2023-05-14
 
 * Criação do Dockerfile e docker-compose.yml
   * Pacotes para renderizar o relatório em PDF;
   * Criação de certificado auto-assinado;
 * Criação automática do keyspacename do Apache Cassandra
+* Adicionado Keycloak como autenticador;
 
 ## 2023-05-13
 
