@@ -1,5 +1,9 @@
 #!/bin/bash
 
-./gradlew clean test build
-rm -Rf build/libs/*plain*.jar
+./gradlew build
 
+mkdir -p build/libs > /dev/null
+docker build -t cashflow-build-img -f Dockerfile-compile .
+sudo docker run --rm -v $PWD/build/libs:/tmp/project/build/libs cashflow-build-img
+
+rm -Rf build/libs/*plain*.jar

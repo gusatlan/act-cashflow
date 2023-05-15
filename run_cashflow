@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cassandra/bin/cqlsh db -e "CREATE KEYSPACE cashflow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"
+cassandra/bin/cqlsh cassandra -e "CREATE KEYSPACE cashflow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"
 java -Djava.awt.headless=true -XX:-UseGCOverheadLimit -Xms512M -Xmx6G -jar app.jar

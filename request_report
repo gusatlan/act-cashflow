@@ -1,0 +1,11 @@
+#!/bin/bash
+
+curl -k -X 'POST' \
+  'https://localhost/report' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "requestId": "abc",
+  "beginDate": "2023-05-10",
+  "endDate": "2023-05-15"
+}'

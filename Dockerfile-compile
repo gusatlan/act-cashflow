@@ -1,0 +1,7 @@
+FROM act-platform-image:latest
+RUN mkdir -p /tmp/project
+VOLUME /tmp/project/build/libs
+COPY . /tmp/project
+WORKDIR /tmp/project
+ENTRYPOINT ["./gradlew", "build"]
+

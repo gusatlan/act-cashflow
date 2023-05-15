@@ -61,43 +61,9 @@ services:
     environment:
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://0.0.0.0:9092
     depends_on:
       - zookeeper
-  app:
-    image: cashflow-img:latest
-    container_name: cashflow
-    ports:
-      - "8080:8080"
-    environment:
-      CASSANDRA_SERVER: cassandra
-      CASSANDRA_DATACENTER: datacenter1
-      #CASSANDRA_USER: root
-      #CASSANDRA_PASSWORD: password
-      CASSANDRA_CONNECT_TIMEOUT: 50s
-      CASSANDRA_REQUEST_TIMEOUT: 10s
-
-      REPORT_DB_HOST: db_report
-      REPORT_DB_USERNAME: root
-      REPORT_DB_PASSWORD: Ora1626X
-      REPORT_DB: report_cash_flow
-
-      KEYSPACE_NAME: cashflow
-      KAFKA_BROKERS: kafka:9092
-
-      KEYCLOAK_HOST: keycloak
-      KEYCLOAK_PORT: 8089
-      SSL_ENABLE: "false"
-    networks:
-      - cashflow-microservice-network
-    depends_on:
-      - cassandra
-      - db_report
-      - zookeeper
-      - kafka
-      - keycloak
-      - proxy
-    restart: on-failure:100
 
 networks:
   cashflow-microservice-network:

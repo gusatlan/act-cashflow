@@ -1,14 +1,10 @@
-#!/bin/bash
-./compile
+@ECHO OFF
+CALL compile.bat
 
 docker build -t cashflow-img:1.0 .
 docker build -t cashflow-img:latest .
 
 cd nginx
-./make
+CALL make.bat
 cd ..
-
-./gradlew clean
-rm *.log
-rm -Rvf build
 
