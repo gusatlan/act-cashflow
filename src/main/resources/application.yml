@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
 
 logging:
   level: INFO
@@ -42,7 +42,7 @@ spring:
   cassandra:
     keyspace-name: "${KEYSPACE_NAME:cashflow}"
     port: 9042
-    contact-points: ${CASSANDRA_SERVER:cassandra}
+    contact-points: ${CASSANDRA_SERVER:localhost}
     local-datacenter: ${CASSANDRA_DATACENTER:datacenter1}
     schema-action: CREATE_IF_NOT_EXISTS
 
@@ -51,7 +51,7 @@ spring:
       platform: postgres
 
   datasource:
-    url: "jdbc:postgresql://${REPORT_DB_HOST:db_report}:5432/${REPORT_DB:report_cash_flow}"
+    url: "jdbc:postgresql://${REPORT_DB_HOST:localhost}:5432/${REPORT_DB:report_cash_flow}"
     username: "${REPORT_DB_USERNAME:root}"
     password: "${REPORT_DB_PASSWORD:Ora1626X}"
   jpa:
@@ -66,7 +66,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: "http://${KEYCLOAK_HOST:keycloak}:${KEYCLOAK_PORT:8089}/realms/cashflow"
+          issuer-uri: "http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8089}/realms/cashflow"
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
   # Kafka
@@ -84,7 +84,7 @@ spring:
           configuration:
             isolation:
               level: read_committed
-          brokers: ${KAFKA_BROKERS:kafka:9092}
+          brokers: ${KAFKA_BROKERS:localhost:9092}
       function:
         definition: upsertItemCashFlow
       bindings:
