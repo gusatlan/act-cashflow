@@ -50,7 +50,7 @@ public class ItemCashFlowService {
     }
 
 
-    private Mono<ItemCashFlow> upsert(final ItemCashFlow value) {
+    public Mono<ItemCashFlow> upsert(final ItemCashFlow value) {
         return Mono.just(value)
                 .filter(ItemCashFlow::isValid)
                 .switchIfEmpty(Mono.error(new EntityInvalidException(ValidationUtils.validate(value))))
@@ -60,7 +60,7 @@ public class ItemCashFlowService {
                 );
     }
 
-    private Mono<Void> remove(final ItemCashFlowId id) {
+    public Mono<Void> remove(final ItemCashFlowId id) {
         return Mono.just(id)
                 .doOnNext(it ->
                         logger.debug("[ItemCashFlow] deleted {}", it)
@@ -69,7 +69,7 @@ public class ItemCashFlowService {
                 .then();
     }
 
-    private Flux<ItemCashFlow> upsertStream(RequestAction<ItemCashFlow>... values) {
+    public Flux<ItemCashFlow> upsertStream(RequestAction<ItemCashFlow>... values) {
         return Flux.fromIterable(Arrays.asList(values))
                 .filter(request ->
                         request.getEntity() != null && request.getEntity().isValid() && request.getAction() != null

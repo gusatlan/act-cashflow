@@ -3,6 +3,7 @@
 * Criação da camada de segurança usando JWT;
 * Adição de testes unitários;
 * Conclusão da documentação;
+* Incluído na pasta docs os documentos relativos ao desafio;
 
 
 ## 2023-05-15

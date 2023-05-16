@@ -94,6 +94,10 @@ public final class ItemCashFlow implements Comparable<ItemCashFlow> {
             return this;
         }
 
+        public Builder withValue(final Double value) {
+            return withValue(value != null ? new BigDecimal(value.toString()): null);
+        }
+
         public ItemCashFlow build() {
             return new ItemCashFlow(id, description, value);
         }

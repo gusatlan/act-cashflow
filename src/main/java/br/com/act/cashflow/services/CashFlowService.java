@@ -26,13 +26,6 @@ public class CashFlowService {
         this.logger = logger;
     }
 
-    private LocalDate retrieveDate(final Collection<ItemCashFlow> items) {
-        return items
-                .stream()
-                .map(it -> it.getId().getDate())
-                .findFirst().orElse(null);
-    }
-
     private Map<LocalDate, List<ItemCashFlow>> toMap(final Collection<ItemCashFlow> items) {
         return items
                 .stream()
@@ -40,7 +33,6 @@ public class CashFlowService {
     }
 
     private Collection<CashFlow> toCashFlow(final Map<LocalDate, List<ItemCashFlow>> map) {
-
         return map
                 .entrySet()
                 .stream()
@@ -54,11 +46,13 @@ public class CashFlowService {
                 ).toList();
     }
 
-
     public Flux<CashFlow> generateCashFlow(final LocalDate beginAt, final LocalDate endAt) {
         return service.find(beginAt, endAt)
                 .collectList()
                 .map(this::toMap)
-                .flatMapIterable(this::toCashFlow);
+                .flatMapIterable(this::toCashFlow)
+                .doOnNext(it ->
+                        logger.debug("[CashFlow] generateCashFlow {}", it)
+                );
     }
 }
