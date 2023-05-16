@@ -129,3 +129,78 @@ Esse endpoint gera o relatório de fluxo de caixa em formato PDF, é do período
 
 # Desenho da solução
 
+Baseado em arquitetura de micro serviços.
+
+* act-platform
+
+Biblioteca de plataforma contendo classes model e utilitárias utilizadas pelo micro-serviço e podendo ser utilizada para novos projetos. A idéia é simular uma biblioteca de plataforma real, em que o código seja reaproveitado por diversos projetos.
+
+* cashflow
+
+O micro serviço em si, construído para atender as necessidades da empresa, realizará o lançamento das entradas de débito e crédito, registrando em banco de dados e criando relatório de fluxo de caixa consolidado.
+
+## Padrões utilizados
+
+
+### Banco de dados
+
+Banco de dados por micro serviço, somente o micro serviço utilizará o banco de dados, isolando e evitando acesso de programas de terceiros na base de dados. Como banco de dados principal foi utilizado o *Apache Cassandra* por ter alta disponibilidade sem um ponto de falha único, além da escalabilidade do mesmo.
+
+PostgreSQL é utilizado para montar o relatório de fluxo de caixa, também é um banco isolado somente acessado pela aplicação. O mesmo é populado somente em tempo de geração do relatório, sendo excluído os dados logo após o término do processo.
+
+### Streaming - Mensageria
+
+Sendo utilizado o *Apache Kafka* como serviço de streaming de dados. Ao chegar lançamentos de débito/crédito é adicionado a mensagem para o tópico e o consumer do mesmo se encarrega de salvar os dados no *Apache Cassandra*. Tratando assim do *back pressure* que a aplicação poderia sofrer com o aumento de uso.
+
+### Conexão segura
+
+Utilizando o *NGINX* como proxy reverso, além disso o mesmo cuida da criptografia dos dados (TLS, https).
+
+### Relatório
+
+Utilizado o *Jasper Studio* como ferramenta de desenho de relatório.
+
+Através do endpoint */report*, é consultado a base de dados, filtrando os dados pelo período parametrizado, os objetos retornados então são mapeados para objetos entidade relacionamento (JPA) e gravados na base do PostgreSQL, é então gerado o relatório consumindo a base relacional, esses registros são excluídos após o término do processamento do relatório e finalmente é devolvido o relatório via REST.
+
+### REST
+
+Utilizado o modelo reativo, ganhando-se uma performance e escalabilidade melhores.
+
+### Segurança e controle de acesso
+
+É utilizado o *Keycloak* como serviço de permissão e controle de acesso, pode ser acessado em http://localhost:8089, o mesmo se encarrega do gerenciamento de usuários, roles, geração de token JWT
+
+### Monitoramento e Métricas
+
+Utilizando a biblioteca do *Spring actuators*, sendo possível verificar a saúde e métricas no endpoint http://localhost:8080/actuator
+
+### Conteiners
+
+Utilizando docker como serviço de conteiners, todos os serviços citados à cima são levantados com ele.
+
+## Serviços utilizados
+
+* Apache Kafka;
+* Apache Cassandra;
+* PostgreSQL;
+* Keycloak;
+* NGinx;
+
+## Ferramentas utilizadas
+
+* Jasper Studio;
+
+## Bibliotecas utilizadas
+
+* Java;
+* Spring Boot;
+* Spring Cloud Stream;
+* Spring Data;
+* Spring Security;
+* Spring Reactive;
+* Spring Doc (Swagger);
+* Actuators;
+
+## Design Patterns utilizados
+
+* Builder;

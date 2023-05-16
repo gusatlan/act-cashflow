@@ -1,6 +1,8 @@
 ## 2023-05-16
 
 * Criação da camada de segurança usando JWT;
+* Adição de testes unitários;
+* Conclusão da documentação;
 
 
 ## 2023-05-15
