@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 @RestController
@@ -25,7 +26,7 @@ public class ItemCashFlowController {
             @RequestParam(name = "date", required = false) final LocalDate date,
             @RequestParam(name = "begin", required = false) final String begin,
             @RequestParam(name = "end", required = false) final String end
-    ) throws ApplicationException {
+            ) throws ApplicationException {
         if (date != null) {
             return service.find(date).map(ItemCashFlowMapper::transform);
         } else if (begin != null && end != null) {
